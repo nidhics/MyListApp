@@ -1,11 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet, View, Text } from 'react-native';
+import { useState } from 'react';
+import AddItems from './src/Features/addItems';
+import AllList from './src/Features/allList';
 export default function App() {
+
+  const [currentItem, setCurrentItem] = useState(null)
+  const [allItems, setAllItems] = useState([])
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {/*{!currentItem ? (<AddItems addItem={setCurrentItem} />) : (<View><Text>hi {currentItem}</Text></View>)}*/}
+      {
+        !currentItem ? (
+          <AddItems addItem={setCurrentItem} />
+        ) : (
+          <View style={styles.container}>
+ 
+            <AllList
+              item={currentItem}
+              // item={setAllItems([...allItems,currentItem])}
+              showList={(i) => { setAllItems([...allItems, i]) }}
+              showAll={[allItems]}
+              onback={() => setCurrentItem(null)} />
+
+
+            
+          </View>
+        )}
+
     </View>
   );
 }
@@ -16,5 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: "row"
   },
+
 });
